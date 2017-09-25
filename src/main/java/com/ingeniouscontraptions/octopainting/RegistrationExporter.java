@@ -2,6 +2,7 @@ package com.ingeniouscontraptions.octopainting;
 
 import com.ingeniouscontraptions.octopainting.domain.Entry;
 import com.ingeniouscontraptions.octopainting.domain.Registration;
+import com.ingeniouscontraptions.octopainting.engine.JasperPrintBuilder;
 import com.ingeniouscontraptions.octopainting.engine.JasperReportsExporter;
 import com.ingeniouscontraptions.octopainting.engine.PrintException;
 import java.net.URL;
@@ -25,15 +26,15 @@ public class RegistrationExporter {
 
     private static final String BLANK_PARAMETER_NAME = "BLANK";
 
-    private final JasperReportsExporter exporter;
+    private final URL jasperFile;
 
     /**
      * Constructs a {@code RegistrationExporter}.
      * 
-     * @param template the url of the JasperReports template
+     * @param jasperFile the url of the JasperReports template
      */
-    public RegistrationExporter(URL template) {
-        exporter = new JasperReportsExporter(template);
+    public RegistrationExporter(URL jasperFile) {
+        this.jasperFile = jasperFile;
     }
 
     /**
@@ -65,15 +66,16 @@ public class RegistrationExporter {
 
     private void export(Registration registration, Path outputFile, boolean blankRegistration) throws PrintException {
         try {
-            JasperPrint jasperPrint = exporter.newBuilder()
+            JasperPrint jasperPrint = new JasperPrintBuilder(jasperFile)
                     .setDataSource(Collections.singleton(registration))
                     .setParameter(BLANK_PARAMETER_NAME, blankRegistration)
                     .toJasperPrint();
+            JasperReportsExporter exporter = new JasperReportsExporter();
             exporter.export(jasperPrint, outputFile);
         } catch (JRException ex) {
-            String errorMessage = String.format("Could not export %s to %s.", registration, outputFile);
-            LOGGER.error(errorMessage);
-            throw new PrintException(errorMessage, ex);
+            String error = String.format("Could not export %s to %s.", registration, outputFile);
+            LOGGER.error(error);
+            throw new PrintException(error, ex);
         }
     }
 

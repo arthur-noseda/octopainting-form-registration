@@ -10,14 +10,14 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) throws PrintException {
-        RegistrationExporter rr = new RegistrationExporter(RegistrationExporter.class.getResource("/jasper/octopainting.jasper"));
+        RegistrationExporter re = new RegistrationExporter(RegistrationExporter.class.getResource("/jasper/octopainting.jasper"));
         Registration r = new Registration(123L, "John", "Doe", "john.doe@greatminiatures.com", "",
                 Arrays.asList(
                         new Entry("Eldar Farseer", new Category("Figurines - Masters peinture")),
                         new Entry("Zhar-Naggrund Ziggurats", new Category("Figurines - Masters création")),
                         new Entry("The Dark Knight", new Category("Greens"))));
-        rr.export(r, Paths.get("C:\\Temp\\octopainting_johndoe.pdf"));
-        rr.exportBlank(Paths.get("C:\\Temp\\octopainting_blank.pdf"));
+        re.export(r, Paths.get("C:\\Temp\\octopainting_johndoe.pdf"));
+        re.exportBlank(Paths.get("C:\\Temp\\octopainting_blank.pdf"));
     }
 
 }

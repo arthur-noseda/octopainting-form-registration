@@ -52,7 +52,7 @@ public class JasperPrintBuilder {
         try {
             URI uri = new URI(jasperFile.toExternalForm());
             URI parent = uri.getPath().endsWith("/") ? uri.resolve("..") : uri.resolve(".");
-            setParameter(SUBREPORT_DIR_PARAMETER_NAME, parent.toString());
+            setSubreportDir(parent.toString());
         } catch (URISyntaxException ex) {
             String warning = String.format("Could not set the %s parameter to the parent directory of %s.", SUBREPORT_DIR_PARAMETER_NAME, jasperFile);
             LOGGER.warn(warning, ex);
@@ -111,6 +111,16 @@ public class JasperPrintBuilder {
      */
     public JasperPrintBuilder setLocale(Locale locale) {
         return setParameter(JRParameter.REPORT_LOCALE, locale);
+    }
+
+    /**
+     * Sets the subreport directory.
+     * 
+     * @param subreportDir the subreport directory
+     * @return this builder
+     */
+    public JasperPrintBuilder setSubreportDir(String subreportDir) {
+        return setParameter(SUBREPORT_DIR_PARAMETER_NAME, subreportDir);
     }
 
     /**
