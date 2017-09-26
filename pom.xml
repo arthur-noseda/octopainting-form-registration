@@ -14,16 +14,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jasperreports.version>5.5.0</jasperreports.version>
         <itext.version>2.1.7</itext.version>
+        <servlet-api.version>2.5</servlet-api.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <pdfbox.version>1.8.10</pdfbox.version>
         <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>2.9.0</log4j.version>
+        <junit.version>4.12</junit.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>com.lowagie</groupId>
-            <artifactId>itext</artifactId>
-            <version>${itext.version}</version>
-        </dependency>
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
@@ -36,10 +35,25 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>${itext.version}</version>
+        </dependency>
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
+            <version>${servlet-api.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>${commons-lang.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -58,6 +72,12 @@
             <version>${log4j.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <build>
@@ -70,6 +90,30 @@
                     <source>1.7</source>
                     <target>1.7</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.ingeniouscontraptions.octopainting.Main</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -103,7 +147,7 @@
                     <dependency>
                         <groupId>javax.servlet</groupId>
                         <artifactId>servlet-api</artifactId>
-                        <version>2.5</version>
+                        <version>${servlet-api.version}</version>
                     </dependency>
                 </dependencies>
                 <executions>

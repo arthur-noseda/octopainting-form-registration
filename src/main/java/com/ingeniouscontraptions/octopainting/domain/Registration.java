@@ -2,6 +2,8 @@ package com.ingeniouscontraptions.octopainting.domain;
 
 import java.io.Serializable;
 import java.util.List;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
  * The registration.
@@ -93,6 +95,40 @@ public class Registration implements Serializable {
      */
     public List<Entry> getEntries() {
         return entries;
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder()
+                .append(id)
+                .append(firstName)
+                .append(lastName)
+                .append(email)
+                .append(phoneNumber)
+                .append(entries)
+                .toHashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (obj.getClass() != getClass()) {
+            return false;
+        }
+        Registration rhs = (Registration) obj;
+        return new EqualsBuilder()
+                .append(id, rhs.id)
+                .append(firstName, rhs.firstName)
+                .append(lastName, rhs.lastName)
+                .append(email, rhs.email)
+                .append(phoneNumber, rhs.phoneNumber)
+                .append(entries, rhs.entries)
+                .isEquals();
     }
 
     @Override

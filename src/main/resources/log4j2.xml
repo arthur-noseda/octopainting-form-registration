@@ -9,6 +9,9 @@
         </Console>
     </Appenders>
     <Loggers>
+        <Logger name="com.ingeniouscontraptions.octopainting" level="debug" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
         <Root level="error">
             <AppenderRef ref="Console"/>
         </Root>

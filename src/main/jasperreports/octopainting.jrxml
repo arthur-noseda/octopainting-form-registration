@@ -2,13 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="octopainting" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="3423efce-8eb6-4906-85e9-2ec431d3154c">
 	<property name="ireport.zoom" value="1.210000000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="17"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["D:\\Development\\Workspaces\\prototypes\\octopainting-registration-form\\src\\main\\jasperreports\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="BLANK" class="java.lang.Boolean">
 		<defaultValueExpression><![CDATA[Boolean.FALSE]]></defaultValueExpression>
 	</parameter>
+	<parameter name="JASPER_REPORT_LOADER" class="com.ingeniouscontraptions.octopainting.engine.JasperReportLoader"/>
 	<field name="id" class="java.lang.Long"/>
 	<field name="lastName" class="java.lang.String"/>
 	<field name="firstName" class="java.lang.String"/>
@@ -105,7 +106,7 @@ Formulaire d'inscription]]></text>
 					<subreportParameterExpression><![CDATA[$P{BLANK}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{entries})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "octopainting-entry.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{JASPER_REPORT_LOADER}.load("/jasper/octopainting-entry.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
 				<reportElement x="5" y="165" width="380" height="20" uuid="f52b1e5d-4041-44d9-8328-8c96d690f725"/>

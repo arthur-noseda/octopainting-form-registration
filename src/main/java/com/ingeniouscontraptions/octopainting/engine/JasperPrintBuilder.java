@@ -1,8 +1,6 @@
 package com.ingeniouscontraptions.octopainting.engine;
 
 import java.io.Serializable;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
@@ -17,8 +15,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * A builder of {@link JasperPrint}.
@@ -26,10 +22,6 @@ import org.slf4j.LoggerFactory;
  * @author Arthur Noseda
  */
 public class JasperPrintBuilder {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JasperPrintBuilder.class);
-
-    private static final String SUBREPORT_DIR_PARAMETER_NAME = "SUBREPORT_DIR";
 
     private final URL jasperFile;
 
@@ -45,18 +37,6 @@ public class JasperPrintBuilder {
     public JasperPrintBuilder(URL jasperFile) {
         this.jasperFile = jasperFile;
         parameters = new HashMap<>();
-        setSubreportDirToParentUrl();
-    }
-
-    private void setSubreportDirToParentUrl() {
-        try {
-            URI uri = new URI(jasperFile.toExternalForm());
-            URI parent = uri.getPath().endsWith("/") ? uri.resolve("..") : uri.resolve(".");
-            setSubreportDir(parent.toString());
-        } catch (URISyntaxException ex) {
-            String warning = String.format("Could not set the %s parameter to the parent directory of %s.", SUBREPORT_DIR_PARAMETER_NAME, jasperFile);
-            LOGGER.warn(warning, ex);
-        }
     }
 
     /**
@@ -111,16 +91,6 @@ public class JasperPrintBuilder {
      */
     public JasperPrintBuilder setLocale(Locale locale) {
         return setParameter(JRParameter.REPORT_LOCALE, locale);
-    }
-
-    /**
-     * Sets the subreport directory.
-     * 
-     * @param subreportDir the subreport directory
-     * @return this builder
-     */
-    public JasperPrintBuilder setSubreportDir(String subreportDir) {
-        return setParameter(SUBREPORT_DIR_PARAMETER_NAME, subreportDir);
     }
 
     /**
