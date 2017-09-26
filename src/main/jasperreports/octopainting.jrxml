@@ -103,7 +103,7 @@ Formulaire d'inscription]]></text>
 					<subreportParameterExpression><![CDATA[$P{BLANK}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{entries})]]></dataSourceExpression>
-				<subreportExpression><![CDATA[$P{JASPER_REPORT_LOADER}.load("/jasper/octopainting-entry-.jasper")]]></subreportExpression>
+				<subreportExpression><![CDATA[$P{JASPER_REPORT_LOADER}.load("/jasper/octopainting-entry.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
 				<reportElement x="5" y="165" width="380" height="20" uuid="f52b1e5d-4041-44d9-8328-8c96d690f725"/>
