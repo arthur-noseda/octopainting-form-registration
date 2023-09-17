@@ -1,41 +1,50 @@
 package com.ingeniouscontraptions.octopainting;
 
-import com.ingeniouscontraptions.octopainting.domain.Registration;
-import com.ingeniouscontraptions.octopainting.engine.PdfFilesMerger;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) throws IOException, ExportException {
-        if (args.length != 2) {
-            System.err.println("Usage: java com.ingeniouscontraptions.octopainting.Main <tsv> <output>\n"
+        if (args.length < 2 || args.length > 3) {
+            System.err.println("Usage: java -jar octopainting-registration-form-1.0-SNAPSHOT-jar-with-dependencies.jar export <tsv> <output>\n"
                     + " - <tsv>    the path to the registrations file (a TSV file downloaded from https://framaforms.org/)\n"
-                    + " - <output> the path to the generated PDF file");
+                    + " - <output> the path to the generated registration PDF file\n"
+                    + "Or: java -jar octopainting-registration-form-1.0-SNAPSHOT-jar-with-dependencies.jar blank <output>\n"
+                    + " - <output> the path to the blank registration PDF file\n");
             System.exit(1);
         }
-        String tsv = args[0];
-        String output = args[1];
-        RegistrationsReader reader = new RegistrationsReader();
-        RegistrationExporter exporter = new RegistrationExporter(Main.class.getResource("/jasper/octopainting.jasper"));
-        List<Registration> registrations = reader.readRegistrations(Paths.get(tsv));
-        String tmpDir = System.getProperty("java.io.tmpdir");
-        List<Path> pdfFiles = new ArrayList<>();
-        for (int i = 0; i < registrations.size(); i++) {
-            Registration registration = registrations.get(i);
-            Path pdfFile = Paths.get(tmpDir, "registration-" + i);
-            pdfFiles.add(pdfFile);
-            exporter.export(registration, pdfFile);
-        }
-        PdfFilesMerger merger = new PdfFilesMerger();
-        merger.mergePdfFiles(pdfFiles, Paths.get(output));
-        for (Path pdfFile : pdfFiles) {
-            Files.delete(pdfFile);
-        }
+        // String tsv = "/home/arthur/Documents/Development/Workspaces/Java/octopainting-form-registration/src/test/resources/formulaire_dinscription_a_octopainting_2023.tsv";
+        // String output = "/home/arthur/Documents/Development/Workspaces/Java/octopainting-form-registration/output2.pdf";
+        // String output = "/home/arthur/Documents/Development/Workspaces/Java/octopainting-form-registration/blank2023.pdf";
+        Command.valueOf(args[0].toUpperCase()).execute(args);
     }
+
+    enum Command {
+
+        EXPORT {
+
+            @Override
+            void execute(String[] args) throws IOException, ExportException {
+                String tsv = args[1];
+                String output = args[2];
+                new Octopainting().exportRegistrations(Paths.get(tsv), Paths.get(output));
+            }
+
+        }, BLANK {
+
+            @Override
+            void execute(String[] args) throws IOException, ExportException {
+                String output = args[1];
+                new Octopainting().exportBlank(Paths.get(output));
+            }
+
+        };
+
+        abstract void execute(String[] args) throws IOException, ExportException;
+
+    }
+
+
 
 }

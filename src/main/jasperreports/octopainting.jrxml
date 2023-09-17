@@ -13,6 +13,7 @@
 	<field name="email" class="java.lang.String"/>
 	<field name="phoneNumber" class="java.lang.String"/>
 	<field name="entries" class="java.util.List"/>
+	<field name="transferOfInformation" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -29,7 +30,7 @@ Formulaire d'inscription]]></text>
 		</band>
 	</title>
 	<detail>
-		<band height="220" splitType="Stretch">
+		<band height="240" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="100" height="20" uuid="7ca5b4c5-27ad-4495-ab52-2da98ff89bb8"/>
 				<textElement>
@@ -88,17 +89,17 @@ Formulaire d'inscription]]></text>
 				<textFieldExpression><![CDATA[$F{phoneNumber}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="140" width="100" height="20" uuid="558bb540-82ab-437e-b157-4c35eb530c5f"/>
+				<reportElement x="0" y="160" width="100" height="20" uuid="558bb540-82ab-437e-b157-4c35eb530c5f"/>
 				<textElement>
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Entrées]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="0" y="160" width="555" height="30" backcolor="#CCCCCC" uuid="4f7e355c-ad4a-4ece-b1da-28afe12323e5"/>
+				<reportElement x="0" y="180" width="555" height="30" backcolor="#CCCCCC" uuid="4f7e355c-ad4a-4ece-b1da-28afe12323e5"/>
 			</rectangle>
 			<subreport>
-				<reportElement x="0" y="190" width="555" height="30" uuid="f2639abf-dca3-4078-85d4-926098549533"/>
+				<reportElement x="0" y="210" width="555" height="30" uuid="f2639abf-dca3-4078-85d4-926098549533"/>
 				<subreportParameter name="BLANK">
 					<subreportParameterExpression><![CDATA[$P{BLANK}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -106,13 +107,23 @@ Formulaire d'inscription]]></text>
 				<subreportExpression><![CDATA[$P{JASPER_REPORT_LOADER}.load("/jasper/octopainting-entry.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="5" y="165" width="380" height="20" uuid="f52b1e5d-4041-44d9-8328-8c96d690f725"/>
+				<reportElement x="5" y="185" width="380" height="20" uuid="f52b1e5d-4041-44d9-8328-8c96d690f725"/>
 				<text><![CDATA[Désignation]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="390" y="165" width="160" height="20" uuid="37185667-63d7-4a2b-a9af-99fdeafec7d0"/>
+				<reportElement x="390" y="185" width="160" height="20" uuid="37185667-63d7-4a2b-a9af-99fdeafec7d0"/>
 				<text><![CDATA[Catégorie]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="120" width="120" height="20" uuid="a544cecf-59ab-4f60-9cc5-06e7542ec669"/>
+				<text><![CDATA[Retour des juges]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="120" y="120" width="435" height="20" uuid="f6805b9a-c01f-4bfb-a1f5-1b4c8d1ef302">
+					<printWhenExpression><![CDATA[!$P{BLANK}.equals(Boolean.TRUE)]]></printWhenExpression>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{transferOfInformation}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

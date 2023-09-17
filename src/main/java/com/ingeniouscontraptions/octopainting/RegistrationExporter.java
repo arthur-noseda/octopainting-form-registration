@@ -61,7 +61,7 @@ public class RegistrationExporter {
         for (int i = 0; i < size; i++) {
             entries.add(new Entry(null, null));
         }
-        Registration registration = new Registration(null, null, null, null, null, entries);
+        Registration registration = new Registration(null, null, null, null, null, entries, null);
         export(registration, outputFile, true);
     }
 

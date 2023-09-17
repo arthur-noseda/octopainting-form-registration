@@ -1,9 +1,10 @@
 package com.ingeniouscontraptions.octopainting.domain;
 
-import java.io.Serializable;
-import java.util.List;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
+
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * The registration.
@@ -24,23 +25,27 @@ public class Registration implements Serializable {
 
     private final List<Entry> entries;
 
+    private final String transferOfInformation;
+
     /**
      * Constructs the registration.
      * 
-     * @param id          the id
-     * @param firstName   the first name of the entrant
-     * @param lastName    the last name of the entrant
-     * @param email       the email of the entrant
-     * @param phoneNumber the phone number of the entrant
-     * @param entries     the list of entries
+     * @param id                    the id
+     * @param firstName             the first name of the entrant
+     * @param lastName              the last name of the entrant
+     * @param email                 the email of the entrant
+     * @param phoneNumber           the phone number of the entrant
+     * @param entries               the list of entries
+     * @param transferOfInformation the transfer of information
      */
-    public Registration(Long id, String firstName, String lastName, String email, String phoneNumber, List<Entry> entries) {
+    public Registration(Long id, String firstName, String lastName, String email, String phoneNumber, List<Entry> entries, String transferOfInformation) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.entries = entries;
+        this.transferOfInformation = transferOfInformation;
     }
 
     /**
@@ -97,6 +102,15 @@ public class Registration implements Serializable {
         return entries;
     }
 
+    /**
+     * Returns the transfer of information
+     *
+     * @return the transfer of information
+     */
+    public String getTransferOfInformation() {
+        return transferOfInformation;
+    }
+
     @Override
     public int hashCode() {
         return new HashCodeBuilder()
@@ -106,6 +120,7 @@ public class Registration implements Serializable {
                 .append(email)
                 .append(phoneNumber)
                 .append(entries)
+                .append(transferOfInformation)
                 .toHashCode();
     }
 
@@ -128,12 +143,19 @@ public class Registration implements Serializable {
                 .append(email, rhs.email)
                 .append(phoneNumber, rhs.phoneNumber)
                 .append(entries, rhs.entries)
+                .append(transferOfInformation, rhs.transferOfInformation)
                 .isEquals();
     }
 
     @Override
     public String toString() {
-        return "Registration{id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", entries=" + entries + "}";
+        return "Registration{id=" + id
+                + ", firstName=" + firstName
+                + ", lastName=" + lastName
+                + ", email=" + email
+                + ", phoneNumber=" + phoneNumber
+                + ", entries=" + entries
+                + ", transferOfInformation=" + transferOfInformation + "}";
     }
 
 }

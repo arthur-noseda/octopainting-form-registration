@@ -4,8 +4,10 @@ import com.ingeniouscontraptions.octopainting.domain.Category;
 import com.ingeniouscontraptions.octopainting.domain.Entry;
 import com.ingeniouscontraptions.octopainting.domain.Registration;
 import com.ingeniouscontraptions.octopainting.tsv.EntriesReader;
+import org.apache.commons.lang.StringUtils;
+
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,37 +18,80 @@ import java.util.List;
  */
 public class RegistrationsReader {
 
+    private static final int SEQUENTIEL = 0;
+
+    private static final int SID = 1;
+
+    private static final int HEURE_DE_SOUMISSION = 2;
+
+    private static final int HEURE_DE_COMPLETION = 3;
+
+    private static final int HEURE_DE_MODIFICATION = 4;
+
+    private static final int BROUILLON = 5;
+
+    private static final int ADRESSE_IP = 6;
+
+    private static final int UID = 7;
+
+    private static final int NOM_D_UTILISATEUR = 8;
+
+    private static final int PRENOM = 9;
+
+    private static final int NOM_DE_FAMILLE = 10;
+
+    private static final int E_MAIL = 11;
+
+    private static final int NUMERO_DE_TELEPHONE = 12;
+
+    private static final int ENTREES = 13;
+
+    private static final int NOMBRE_CHAMPS_ENTREE = 2;
+
+    private static final int NOMBRE_ENTREES = 5;
+
+    private static final int RETOUR_DES_JUGES = ENTREES + NOMBRE_ENTREES * NOMBRE_CHAMPS_ENTREE;
+
     /**
-     * Reads the list of registrations from the file.
+     * Reads the list of registrations from the reader.
      * 
-     * @param file the file
+     * @param reader the reader
      * @return the list of registrations
      * @throws IOException if the file could not be read
      */
-    public List<Registration> readRegistrations(Path file) throws IOException {
-        EntriesReader reader = new EntriesReader();
-        return reader.readEntries(file, new EntriesReader.EntryHandler<Registration>() {
-
-            @Override
-            public Registration handleEntry(String line) {
-                String[] chunks = line.split("\\t");
-                int size = chunks.length;
-                String[] values = new String[size];
-                for (int i = 0; i < size; i++) {
-                    // Remove leading and trailing quotes.
-                    values[i] = chunks[i].replaceAll("^\"|\"$", "");
-                }
-                List<Entry> entries = new ArrayList<>();
-                for (int i = 14; i < size; i += 2) {
-                    String name = values[i];
-                    if (!name.equals("")) {
-                        entries.add(new Entry(name, new Category(values[i + 1])));
-                    }
-                }
-                return new Registration(new Long(values[0]), values[10], values[9], values[11], values[12], entries);
+    public List<Registration> readRegistrations(BufferedReader reader) throws IOException {
+        EntriesReader entriesReader = new EntriesReader();
+        return entriesReader.readEntries(reader, line -> {
+            String[] chunks = line.split("\\t");
+            String[] values = normalize(chunks);
+            List<Entry> entries = createEntries(values);
+            // Field added in 2023. Backward compatibility is handled here.
+            String transferOfInformation = chunks.length > RETOUR_DES_JUGES ? values[RETOUR_DES_JUGES] : null;
+            if (StringUtils.isBlank(transferOfInformation)) {
+                transferOfInformation = "Indifférent";
             }
-
+            return new Registration(Long.valueOf(values[SEQUENTIEL]), values[NOM_DE_FAMILLE], values[PRENOM], values[E_MAIL], values[NUMERO_DE_TELEPHONE], entries, transferOfInformation);
         });
+    }
+
+    private String[] normalize(String[] chunks) {
+        String[] values = new String[chunks.length];
+        for (int i = 0; i < chunks.length; i++) {
+            // Remove leading and trailing quotes.
+            values[i] = chunks[i].replaceAll("^\"|\"$", "");
+        }
+        return values;
+    }
+
+    private List<Entry> createEntries(String[] values) {
+        List<Entry> entries = new ArrayList<>();
+        for (int i = 0; i < NOMBRE_ENTREES; i++) {
+            String name = values[ENTREES + NOMBRE_CHAMPS_ENTREE * i];
+            if (!name.equals("")) {
+                entries.add(new Entry(name, new Category(values[ENTREES + NOMBRE_CHAMPS_ENTREE * i + 1])));
+            }
+        }
+        return entries;
     }
 
 }
