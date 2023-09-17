@@ -16,10 +16,11 @@
         <itext.version>2.1.7</itext.version>
         <servlet-api.version>2.5</servlet-api.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <pdfbox.version>1.8.10</pdfbox.version>
+        <pdfbox.version>1.8.16</pdfbox.version>
         <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>2.20.0</log4j.version>
         <junit.version>4.13.2</junit.version>
+        <assertj.version>3.24.2</assertj.version>
     </properties>
 
     <dependencies>
@@ -81,7 +82,7 @@
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.24.2</version>
+            <version>${assertj.version}</version>
             <scope>test</scope>
         </dependency>
 
