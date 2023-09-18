@@ -26,7 +26,9 @@ public class EntriesReader {
         List<T> entries = new ArrayList<>();
         for (String line; (line = reader.readLine()) != null; ) {
             T entry = entryHandler.handleEntry(line);
-            entries.add(entry);
+            if (entry != null) {
+                entries.add(entry);
+            }
         }
         return entries;
     }

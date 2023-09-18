@@ -64,14 +64,29 @@ public class RegistrationsReader {
         return entriesReader.readEntries(reader, line -> {
             String[] chunks = line.split("\\t");
             String[] values = normalize(chunks);
-            List<Entry> entries = createEntries(values);
-            // Field added in 2023. Backward compatibility is handled here.
-            String transferOfInformation = chunks.length > RETOUR_DES_JUGES ? values[RETOUR_DES_JUGES] : null;
-            if (StringUtils.isBlank(transferOfInformation)) {
-                transferOfInformation = "Indifférent";
+            if (!isValidEntry(values)) {
+                return null;
             }
+            List<Entry> entries = createEntries(values);
+            String transferOfInformation = getTransferOfInformation(values);
             return new Registration(Long.valueOf(values[SEQUENTIEL]), values[NOM_DE_FAMILLE], values[PRENOM], values[E_MAIL], values[NUMERO_DE_TELEPHONE], entries, transferOfInformation);
         });
+    }
+
+    /**
+     * Each entry starts with a sequential number.
+     * This method tells if the values represent a valid entry or (probably) a header.
+     *
+     * @param values the normalized values
+     * @return {@code true} if the entry is a valid one, {@code false} otherwise
+     */
+    private boolean isValidEntry(String[] values) {
+        try {
+            Integer.parseInt(values[SEQUENTIEL]);
+            return true;
+        } catch (NumberFormatException nfex) {
+            return false;
+        }
     }
 
     private String[] normalize(String[] chunks) {
@@ -92,6 +107,15 @@ public class RegistrationsReader {
             }
         }
         return entries;
+    }
+
+    private String getTransferOfInformation(String[] values) {
+        // Field added in 2023. Backward compatibility is handled here.
+        String transferOfInformation = values.length > RETOUR_DES_JUGES ? values[RETOUR_DES_JUGES] : null;
+        if (StringUtils.isBlank(transferOfInformation)) {
+            return "Indifférent";
+        }
+        return transferOfInformation;
     }
 
 }
