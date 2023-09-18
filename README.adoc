@@ -1,0 +1,44 @@
+= README
+
+Cette application permet de générer les documents PDF de pré-inscription et d'inscription au concours de peinture Octopainting, organisé dans le cadre de la convention https://octogones.org/[OctoGônes].
+
+== Pré-requis
+
+`octopainting-registration-form` est un programme Java, et suppose l'installation de Java sur la machine.
+Pour vérifier que Java est installé, entrer dans une invite en ligne de commande :
+
+[source,bash]
+----
+java -version
+----
+
+Si Java est correctement installé, la commande devrait imprimer une sortie semblable à celle-ci :
+----
+openjdk version "17.0.8.1" 2023-08-24
+OpenJDK Runtime Environment (build 17.0.8.1+1-Ubuntu-0ubuntu120.04)
+OpenJDK 64-Bit Server VM (build 17.0.8.1+1-Ubuntu-0ubuntu120.04, mixed mode, sharing)
+----
+
+== Utilisation
+
+`octopainting-registration-form` peut être utilisée de 2 façons :
+
+Pour produire les documents de pré-inscription, avec les données issues du https://framaforms.org/formulaire-dinscription-a-octopainting-2023-1693216250[formulaire de pré-inscription], dans une invite en ligne de commande :
+
+[source,bash]
+----
+java -jar octopainting-registration-form-1.0-SNAPSHOT-jar-with-dependencies.jar export <chemin-vers-fichier-tsv> pre-inscriptions-2023.pdf
+----
+
+* Le premier paramètre, `export` indique à `octopainting-registration-form` qu'il doit convertir un fichier TSV en fichier PDF.
+* Le deuxième paramètre est le chemin vers le fichier TSV, qui peut être absolu ou relatif.
+* Le troisème paramètre est le chemin vers le fichier PDF généré par le programme, qui peut être absolu ou relatif également.
+
+Pour produire un formulaire d'inscription vierge, dans une invite en ligne de commande :
+
+[source,bash]
+----
+java -jar octopainting-registration-form-1.0-SNAPSHOT-jar-with-dependencies.jar blank formulaire-vierge-2023.pdf
+----
+* Le premier paramètre, `blank` indique à `octopainting-registration-form` qu'il doit produire un formulaire vierge.
+* Le deuxième paramètre est le chemin vers le fichier PDF généré par le programme, qui peut être absolu ou relatif.
