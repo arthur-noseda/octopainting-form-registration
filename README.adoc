@@ -27,7 +27,7 @@ Pour produire les documents de pré-inscription, avec les données issues du htt
 
 [source,bash]
 ----
-java -jar octopainting-registration-form-1.0-SNAPSHOT-jar-with-dependencies.jar export <chemin-vers-fichier-tsv> pre-inscriptions-2023.pdf
+java -jar octopainting-registration-form-1.0.0-jar-with-dependencies.jar export <chemin-vers-fichier-tsv> pre-inscriptions-2023.pdf
 ----
 
 * Le premier paramètre, `export` indique à `octopainting-registration-form` qu'il doit convertir un fichier TSV en fichier PDF.
@@ -38,7 +38,7 @@ Pour produire un formulaire d'inscription vierge, dans une invite en ligne de co
 
 [source,bash]
 ----
-java -jar octopainting-registration-form-1.0-SNAPSHOT-jar-with-dependencies.jar blank formulaire-vierge-2023.pdf
+java -jar octopainting-registration-form-1.0.0-jar-with-dependencies.jar blank formulaire-vierge-2023.pdf
 ----
 * Le premier paramètre, `blank` indique à `octopainting-registration-form` qu'il doit produire un formulaire vierge.
 * Le deuxième paramètre est le chemin vers le fichier PDF généré par le programme, qui peut être absolu ou relatif.

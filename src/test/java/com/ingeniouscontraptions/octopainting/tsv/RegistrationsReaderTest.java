@@ -35,4 +35,14 @@ public class RegistrationsReaderTest {
         }
     }
 
+    @Test
+    public void shouldFilterHeaders() throws Exception {
+        RegistrationsReader registrationsReader = new RegistrationsReader();
+        Path path = Paths.get(RegistrationsReaderTest.class.getResource("/formulaire_dinscription_a_octopainting_2023_with_headers.tsv").toURI());
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            assertThat(registrationsReader.readRegistrations(reader))
+                    .hasSize(1);
+        }
+    }
+
 }
