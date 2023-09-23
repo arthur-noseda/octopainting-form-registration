@@ -21,9 +21,15 @@ OpenJDK 64-Bit Server VM (build 17.0.8.1+1-Ubuntu-0ubuntu120.04, mixed mode, sha
 
 == Utilisation
 
-`octopainting-registration-form` peut être utilisée de 2 façons :
+`octopainting-registration-form` a 2 usages, accessibles par une interface utilisateur graphique ou en ligne de commande.
 
-Pour produire les documents de pré-inscription, avec les données issues du https://framaforms.org/formulaire-dinscription-a-octopainting-2023-1693216250[formulaire de pré-inscription], dans une invite en ligne de commande :
+Pour afficher l'interface utilisateur :
+[source,bash]
+----
+java -jar octopainting-registration-form-1.0.0-jar-with-dependencies.jar gui
+----
+
+Produire les documents de pré-inscription, avec les données issues du https://framaforms.org/formulaire-dinscription-a-octopainting-2023-1693216250[formulaire de pré-inscription], dans une invite en ligne de commande :
 
 [source,bash]
 ----
@@ -34,7 +40,7 @@ java -jar octopainting-registration-form-1.0.0-jar-with-dependencies.jar export 
 * Le deuxième paramètre est le chemin vers le fichier TSV, qui peut être absolu ou relatif.
 * Le troisème paramètre est le chemin vers le fichier PDF généré par le programme, qui peut être absolu ou relatif également.
 
-Pour produire un formulaire d'inscription vierge, dans une invite en ligne de commande :
+Produire un formulaire d'inscription vierge, dans une invite en ligne de commande :
 
 [source,bash]
 ----
